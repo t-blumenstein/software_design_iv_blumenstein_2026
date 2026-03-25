@@ -6,8 +6,8 @@ import { CourseCreate } from './components/course-create/course-create';
 
 export const routes: Routes = [
   {path: '', component: Courses},
-  {path: 'courses/:courseId', component: CourseDetails},
   {path: 'courses/create', component: CourseCreate},
+  {path: 'courses/:courseId', component: CourseDetails},
 
   {path: '**', component: PageNotFound}
 ];

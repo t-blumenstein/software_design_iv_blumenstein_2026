@@ -1,1 +1,70 @@
-<p>course-details works!</p>
+<section class="mx-auto max-w-4xl rounded-2xl border border-slate-700 bg-slate-900/95 p-5 shadow-2xl shadow-slate-950/60 sm:p-7">
+  <div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h1 class="text-3xl font-bold tracking-tight text-slate-100">Course Details</h1>
+      <p class="mt-1 text-sm text-slate-400">View and edit the selected course.</p>
+    </div>
+    <a
+      class="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-600"
+      [routerLink]="['/']"
+    >
+      Back to Courses
+    </a>
+  </div>
+
+  @if(course) {
+    <div class="space-y-4 rounded-xl border border-slate-700 bg-slate-800/80 p-4 shadow-md shadow-slate-950/40">
+      <div class="space-y-2">
+        <label class="block text-sm font-semibold text-slate-200">Course Title</label>
+        <input
+          class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+          [(ngModel)]="course.title"
+        >
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-semibold text-slate-200">Instructor</label>
+        <input
+          class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+          [(ngModel)]="course.instructor"
+        >
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-sm font-semibold text-slate-200">Credits</label>
+        <input
+          class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+          type="number"
+          [(ngModel)]="course.credits"
+        >
+      </div>
+
+      <label class="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/70 p-3 text-slate-200">
+        <input
+          class="h-4 w-4 accent-cyan-400"
+          type="checkbox"
+          [(ngModel)]="course.isCompleted"
+        >
+        <span>Mark as completed</span>
+      </label>
+
+      <div class="text-sm text-slate-300">
+        This course is
+        <span class="font-semibold" [class.text-emerald-300]="course.isCompleted" [class.text-amber-300]="!course.isCompleted">
+          {{ course.isCompleted ? 'completed' : 'in progress' }}
+        </span>.
+      </div>
+
+      <button
+        class="inline-flex items-center rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-md shadow-cyan-900/40 transition hover:bg-cyan-400"
+        (click)="saveCourse()"
+      >
+        Save Changes
+      </button>
+    </div>
+  } @else {
+    <div class="rounded-xl border border-rose-800/60 bg-rose-950/30 p-4 text-rose-200">
+      Course not found.
+    </div>
+  }
+</section>

@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { CourseDb } from "../models/course-db";
+import { Course } from "../models/course";
 
 
 @Injectable({
@@ -29,5 +30,33 @@ export class CourseDbService {
     this.courseDb = db ? (JSON.parse(db) as CourseDb) : this.INITIAL_DATA;
 
     return this.courseDb;
+  }
+
+  private saveDb(): void {
+    localStorage.setItem(this.courseDbKey, JSON.stringify(this.courseDb));
+  }
+
+  public getCourseById(id: string): Course | null{
+    return this.courseDb?.[+id] ?? null;
+  }
+
+  public getAllCourses(): Course[] {
+    return Object.values(this.courseDb ?? {});
+  }
+
+  public addCourse(course: Course): void {
+    if(!this.courseDb) {
+      this.courseDb = {};
+    }
+
+    const newId = Object.keys(this.courseDb).length + 1;
+    this.courseDb[newId] = course;
+    this.saveDb();
+  }
+
+  public updateCourse(course: Course): void {
+    if(!this.courseDb) return;
+    this.courseDb[+course.id] = course;
+    this.saveDb();
   }
 }
