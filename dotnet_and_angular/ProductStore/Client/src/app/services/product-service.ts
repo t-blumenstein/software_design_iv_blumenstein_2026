@@ -9,11 +9,14 @@ import { Product } from '../models/product';
 export class ProductService {
   private _http = inject(HttpClient);
   
-  private _productListSubject: BehaviorSubject<Product[]> = new BehaviorSubject<Product[]>([] as Product[]);
+  // BehaviorSubjects
+  private _productListSubject: BehaviorSubject<Product[]> 
+    = new BehaviorSubject<Product[]>([] as Product[]);
   
   private _productSubject: BehaviorSubject<Product | null> =
     new BehaviorSubject<Product | null>(null);
 
+  // Observables
   public productList$: Observable<Product[]> =
     this._productListSubject.asObservable();
 
@@ -29,7 +32,7 @@ export class ProductService {
     return this._productSubject.value;
   }
 
-  public getAllProducts(): Observable<Product[]>{
+  public getAllProducts(): Observable<Product[]> {
     return this._http.get<Product[]>(`/api/products`).pipe(
       tap((productList) => {
         console.log(productList);
@@ -38,7 +41,7 @@ export class ProductService {
     );
   }
 
-  public getProductById(productId: number): Observable<Product>{
+  public getProductById(productId: number): Observable<Product> {
     return this._http.get<Product>(`/api/products/${productId}`).pipe(
       tap((product) => {
         this._productSubject.next(product);
@@ -46,7 +49,7 @@ export class ProductService {
     );
   }
 
-  public select(product: Product | null): void{
+  public select(product: Product | null): void {
     this._productSubject.next(product);
   }
   
