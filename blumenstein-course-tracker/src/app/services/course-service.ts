@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { CourseDb } from "../models/course-db";
 import { Course } from "../models/course";
 
 
@@ -9,54 +8,74 @@ import { Course } from "../models/course";
 
 export class CourseDbService {
   private courseDbKey: string = 'course-db';
-  public courseDb: CourseDb | null = null;
+  private courses: Course[] = [];
 
-  private INITIAL_DATA: CourseDb = {
-    1: {id: '1', title: 'Software Design 1', instructor: 'Dr. Allen', credits: 4, isCompleted: false},
-    2: {id: '2', title: 'Database Systems', instructor: 'Prof. Chen', credits: 4, isCompleted: true},
-    3: {id: '3', title: 'Operating Systems', instructor: 'Dr. Patel', credits: 4, isCompleted: false},
-    4: {id: '4', title: 'Computer Networks', instructor: 'Prof. Ramirez', credits: 3, isCompleted: false},
-    5: {id: '5', title: 'Web Development', instructor: 'Dr. Carter', credits: 3, isCompleted: true},
-    6: {id: '6', title: 'Algorithms', instructor: 'Prof. Nguyen', credits: 4, isCompleted: false},
-    7: {id: '7', title: 'Cybersecurity Fundamentals', instructor: 'Dr. Morris', credits: 3, isCompleted: true},
-    8: {id: '8', title: 'Artificial Intelligence', instructor: 'Prof. Singh', credits: 3, isCompleted: false},
-    9: {id: '9', title: 'Mobile App Development', instructor: 'Dr. Brooks', credits: 3, isCompleted: false},
-    10: {id: '10', title: 'Cloud Computing', instructor: 'Prof. Evans', credits: 3, isCompleted: false},
-  };
+  private INITIAL_DATA: Course[] = [
+    {id: '1', title: 'Software Design 1', instructor: 'Dr. Allen', credits: 4, isCompleted: false},
+    {id: '2', title: 'Database Systems', instructor: 'Prof. Chen', credits: 4, isCompleted: true},
+    {id: '3', title: 'Operating Systems', instructor: 'Dr. Patel', credits: 4, isCompleted: false},
+    {id: '4', title: 'Computer Networks', instructor: 'Prof. Ramirez', credits: 3, isCompleted: false},
+    {id: '5', title: 'Web Development', instructor: 'Dr. Carter', credits: 3, isCompleted: true},
+    {id: '6', title: 'Algorithms', instructor: 'Prof. Nguyen', credits: 4, isCompleted: false},
+    {id: '7', title: 'Cybersecurity Fundamentals', instructor: 'Dr. Morris', credits: 3, isCompleted: true},
+    {id: '8', title: 'Artificial Intelligence', instructor: 'Prof. Singh', credits: 3, isCompleted: false},
+    {id: '9', title: 'Mobile App Development', instructor: 'Dr. Brooks', credits: 3, isCompleted: false},
+    {id: '10', title: 'Cloud Computing', instructor: 'Prof. Evans', credits: 3, isCompleted: false},
+  ];
 
-  public loadDb(): CourseDb {
-    let db: string | null = localStorage.getItem(this.courseDbKey);
+  public loadDb(): Course[] {
+    const db: string | null = localStorage.getItem(this.courseDbKey);
 
-    this.courseDb = db ? (JSON.parse(db) as CourseDb) : this.INITIAL_DATA;
+    if (!db) {
+      this.courses = [...this.INITIAL_DATA];
+      return this.courses;
+    }
 
-    return this.courseDb;
+    const parsedDb: unknown = JSON.parse(db);
+    this.courses = Array.isArray(parsedDb)
+      ? (parsedDb as Course[])
+      : Object.values(parsedDb as Record<string, Course>);
+
+    return this.courses;
   }
 
   private saveDb(): void {
-    localStorage.setItem(this.courseDbKey, JSON.stringify(this.courseDb));
+    localStorage.setItem(this.courseDbKey, JSON.stringify(this.courses));
   }
 
   public getCourseById(id: string): Course | null{
-    return this.courseDb?.[+id] ?? null;
+    return this.courses.find((course) => course.id === id) ?? null;
   }
 
   public getAllCourses(): Course[] {
-    return Object.values(this.courseDb ?? {});
+    return this.courses;
+  }
+
+  public getNextCourseId(): string {
+    return String(this.courses.length + 1);
   }
 
   public addCourse(course: Course): void {
-    if(!this.courseDb) {
-      this.courseDb = {};
-    }
-
-    const newId = Object.keys(this.courseDb).length + 1;
-    this.courseDb[newId] = course;
+    const newId = this.getNextCourseId();
+    this.courses.push({ ...course, id: newId });
     this.saveDb();
   }
 
   public updateCourse(course: Course): void {
-    if(!this.courseDb) return;
-    this.courseDb[+course.id] = course;
+    const index = this.courses.findIndex((item) => item.id === course.id);
+
+    if (index === -1) return;
+
+    this.courses[index] = course;
+    this.saveDb();
+  }
+
+  public deleteCourse(id: string): void {
+    const index = this.courses.findIndex((course) => course.id === id);
+
+    if (index === -1) return;
+
+    this.courses.splice(index, 1);
     this.saveDb();
   }
 }

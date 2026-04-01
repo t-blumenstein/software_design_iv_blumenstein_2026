@@ -1,1 +1,81 @@
-<p>course-create works!</p>
+<section class="mx-auto max-w-4xl rounded-2xl border border-slate-700 bg-slate-900/95 p-5 shadow-2xl shadow-slate-950/60 sm:p-7">
+	<div class="mb-5 flex flex-wrap items-center justify-between gap-3">
+		<div>
+			<h1 class="text-3xl font-bold tracking-tight text-slate-100">Create Course</h1>
+			<p class="mt-1 text-sm text-slate-400">Add a new course to your tracker.</p>
+		</div>
+
+		<a
+			class="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-600"
+			[routerLink]="['/']"
+		>
+			Back to Courses
+		</a>
+	</div>
+
+	<form
+		class="space-y-4 rounded-xl border border-slate-700 bg-slate-800/80 p-4 shadow-md shadow-slate-950/40"
+		(ngSubmit)="createCourse()"
+	>
+		<div class="space-y-2">
+			<label class="block text-sm font-semibold text-slate-200" for="title">Course Title</label>
+			<input
+				id="title"
+				name="title"
+				class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+				[(ngModel)]="title"
+				required
+			>
+		</div>
+
+		<div class="space-y-2">
+			<label class="block text-sm font-semibold text-slate-200" for="instructor">Instructor</label>
+			<input
+				id="instructor"
+				name="instructor"
+				class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+				[(ngModel)]="instructor"
+				required
+			>
+		</div>
+
+		<div class="space-y-2">
+			<label class="block text-sm font-semibold text-slate-200" for="credits">Credits</label>
+			<input
+				id="credits"
+				name="credits"
+				class="w-full rounded-lg border border-slate-600 bg-slate-900 px-3 py-2 text-slate-100 outline-none transition focus:border-cyan-400 focus:ring-2 focus:ring-cyan-500/30"
+				type="number"
+				min="1"
+				max="6"
+				[(ngModel)]="credits"
+			>
+		</div>
+
+		<label class="flex items-center gap-3 rounded-lg border border-slate-700 bg-slate-900/70 p-3 text-slate-200">
+			<input
+				class="h-4 w-4 accent-cyan-400"
+				type="checkbox"
+				name="isCompleted"
+				[(ngModel)]="isCompleted"
+			>
+			<span>Mark as completed</span>
+		</label>
+
+		<div class="flex flex-wrap gap-3">
+			<button
+				class="inline-flex items-center rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-md shadow-cyan-900/40 transition hover:bg-cyan-400"
+				type="submit"
+			>
+				Add Course
+			</button>
+			<button
+				class="inline-flex items-center rounded-lg bg-slate-700 px-4 py-2 text-sm font-semibold text-slate-100 transition hover:bg-slate-600"
+				type="button"
+				(click)="resetForm()"
+			>
+				Reset
+			</button>
+		</div>
+	</form>
+</section>

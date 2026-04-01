@@ -55,12 +55,22 @@
         </span>.
       </div>
 
-      <button
-        class="inline-flex items-center rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-md shadow-cyan-900/40 transition hover:bg-cyan-400"
-        (click)="saveCourse()"
-      >
-        Save Changes
-      </button>
+      <div class="flex flex-wrap gap-3">
+        <button
+          class="inline-flex items-center rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-slate-950 shadow-md shadow-cyan-900/40 transition hover:bg-cyan-400"
+          (click)="saveCourse()"
+        >
+          Save Changes
+        </button>
+
+        <button
+          class="inline-flex items-center rounded-lg bg-rose-600 px-4 py-2 text-sm font-semibold text-rose-50 shadow-md shadow-rose-900/40 transition hover:bg-rose-500"
+          (click)="deleteCourse()"
+          type="button"
+        >
+          Delete Course
+        </button>
+      </div>
     </div>
   } @else {
     <div class="rounded-xl border border-rose-800/60 bg-rose-950/30 p-4 text-rose-200">

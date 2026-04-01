@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CourseDbService } from '../../services/course-service';
 import { Course } from '../../models/course';
 
@@ -14,6 +14,7 @@ import { Course } from '../../models/course';
 export class CourseDetails implements OnInit{
   private _courseDbService = inject(CourseDbService);
   private _route = inject(ActivatedRoute);
+  private _router = inject(Router);
 
   course: Course | null = null;
 
@@ -26,5 +27,17 @@ export class CourseDetails implements OnInit{
   public saveCourse(): void {
     if(!this.course) return;
     this._courseDbService.updateCourse(this.course);
+    this._router.navigate(['/']);
+  }
+
+  public deleteCourse(): void {
+    if(!this.course) return;
+
+    const confirmed = window.confirm('Are you sure you want to delete this course?');
+
+    if (!confirmed) return;
+
+    this._courseDbService.deleteCourse(this.course.id);
+    this._router.navigate(['/']);
   }
 }
