@@ -1,1 +1,27 @@
-<p>movie-card works!</p>
+<div class="movie-card">
+  @if (movie?.posterPath) {
+    <img [src]="movie?.posterPath" [alt]="movie?.title" class="poster" />
+  }
+  
+  <div class="card-content">
+    <h3 class="title">{{ movie?.title }}</h3>
+    
+    <p class="director"><strong>Director:</strong> {{ movie?.director }}</p>
+    
+    <p class="genre"><strong>Genre:</strong> {{ movie?.genre }}</p>
+    
+    <p class="year"><strong>Year:</strong> {{ movie?.releaseYear }}</p>
+    
+    <p class="rating"><strong>Rating:</strong> {{ movie?.rating }}/10</p>
+    
+    @if (movie?.isAvailableToStream) {
+      <p class="stream">
+        <strong>Available to Stream</strong>
+      </p>
+    }
+    
+    <p class="description">{{ movie?.description }}</p>
+    
+    <button (click)="view()" class="view-btn">View Details</button>
+  </div>
+</div>

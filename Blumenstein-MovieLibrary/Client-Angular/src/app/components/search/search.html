@@ -1,0 +1,40 @@
+<div class="search-container">
+  <div class="search-header">
+    <h1>Search Movies</h1>
+    
+    <div class="search-box">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="search()"
+        placeholder="Search by movie title..."
+        class="search-input"
+      />
+      <button (click)="search()" [disabled]="isSearching" class="search-btn">
+        {{ isSearching ? 'Searching...' : 'Search' }}
+      </button>
+    </div>
+  </div>
+
+  @if (isSearching) {
+    <div class="loading">
+      <p>Searching for movies...</p>
+    </div>
+  }
+
+  @if (hasSearched && !isSearching) {
+    <div class="search-results">
+      @if (searchResults.length > 0) {
+        <div class="results-grid">
+          @for (movie of searchResults; track movie.id) {
+            <app-movie-card [movie]="movie"></app-movie-card>
+          }
+        </div>
+      } @else {
+        <div class="no-results">
+          <p>No movies were found.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

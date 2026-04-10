@@ -1,1 +1,8 @@
-<p>movie-details works!</p>
+<div>
+  <h2>{{ (movie$ | async)?.title }}</h2>
+  <p><strong>Director:</strong> {{ (movie$ | async)?.director }}</p>
+  <p><strong>Genre:</strong> {{ (movie$ | async)?.genre }}</p>
+  <p><strong>Release Year:</strong> {{ (movie$ | async)?.releaseYear }}</p>
+  <p><strong>Rating:</strong> {{ (movie$ | async)?.rating }}/10</p>
+  <p><strong>Description:</strong> {{ (movie$ | async)?.description }}</p>
+</div>
