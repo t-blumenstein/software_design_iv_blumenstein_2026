@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Movie } from '../../models/movie';
 import { MovieCard } from '../movie-card/movie-card';
-import { catchError, finalize, map, of, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-search',
@@ -14,42 +13,26 @@ import { catchError, finalize, map, of, timeout } from 'rxjs';
 })
 export class Search {
   private _http = inject(HttpClient);
-  
+
   searchQuery: string = '';
   searchResults: Movie[] = [];
-  isSearching: boolean = false;
-  hasSearched: boolean = true;
+  hasSearched: boolean = false;
 
-  public search(): void {
-    const query = this.searchQuery.trim();
+  public search(inputValue?: string): void {
+    const valueForQuery = (inputValue ?? this.searchQuery).trim();
 
-    if (!query) {
+    if (!valueForQuery) {
       this.searchResults = [];
       this.hasSearched = true;
-      this.isSearching = false;
       return;
     }
 
-    this.isSearching = true;
+    this.searchQuery = valueForQuery;
+    this.hasSearched = true;
 
-    const params = new HttpParams().set('title', query);
+    const params = new HttpParams().set('title', valueForQuery);
 
-    this._http.get<Movie[]>('/api/movies/search', { params }).pipe(
-      timeout(8000),
-      map((results) =>
-        results.filter((movie) =>
-          (movie.title ?? '').toLowerCase().includes(query.toLowerCase())
-        )
-      ),
-      catchError((error) => {
-        console.error('Search error:', error);
-        return of([] as Movie[]);
-      }),
-      finalize(() => {
-        this.isSearching = false;
-        this.hasSearched = true;
-      })
-    ).subscribe((results) => {
+    this._http.get<Movie[]>('/api/movies/search', { params }).subscribe((results) => {
       this.searchResults = results;
     });
   }

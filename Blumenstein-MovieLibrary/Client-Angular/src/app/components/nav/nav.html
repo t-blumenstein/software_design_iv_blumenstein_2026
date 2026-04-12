@@ -1,18 +1,17 @@
 <header>
-  <nav class="bg-blue-500 shadow-md border-b">
-    <div class="container mx-auto px-4">
-      <div class="flex w-full">
-        <ul class="flex text-lg font-semibold p-4 w-1/2 flex-grow space-x-4">
+  <nav class="bg-purple-900 shadow-lg border-b border-purple-800">
+    <div class="container mx-auto px-6">
+      <div class="flex items-center justify-between h-14">
+        <span class="text-white text-xl font-bold tracking-wide">Movie Library</span>
+        <ul class="flex items-center space-x-6 text-sm font-semibold">
           <li>
-            <a class="text-white hover:text-gray-300" [routerLink]="['/']">Home</a>
+            <a class="text-purple-200 hover:text-white transition-colors duration-200" [routerLink]="['/']">Home</a>
           </li>
-
           <li>
-            <a class="text-white hover:text-gray-300" [routerLink]="['/movies']">Movies</a>
+            <a class="text-purple-200 hover:text-white transition-colors duration-200" [routerLink]="['/movies']">Movies</a>
           </li>
-
           <li>
-            <a class="text-white hover:text-gray-300" [routerLink]="['/movies/search']">Search</a>
+            <a class="text-purple-200 hover:text-white transition-colors duration-200" [routerLink]="['/movies/search']">Search</a>
           </li>
         </ul>
       </div>

@@ -36,10 +36,12 @@ namespace MyApp.Namespace
 
         [HttpGet("search")]
         public async Task<ActionResult<List<Movie>>> SearchMovies([FromQuery] string? title){
-            var normalized = title?.Trim().ToLower();
+            if(string.IsNullOrWhiteSpace(title)){
+                return Ok(new List<Movie>());
+            }
 
             var matches = await _context.Movies
-                .Where(m => m.Title != null && m.Title.ToLower().Contains(normalized))
+                .Where(m => m.Title != null && m.Title.Contains(title.Trim()))
                 .ToListAsync();
 
             return Ok(matches);
