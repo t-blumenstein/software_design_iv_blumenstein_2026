@@ -104,9 +104,6 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-// Adds authentication middleware before authorization.
-builder.Services.AddAuthentication();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

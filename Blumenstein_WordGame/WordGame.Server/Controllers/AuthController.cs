@@ -19,8 +19,8 @@ namespace WordGame.Server.Controllers;
 public class AuthController : ControllerBase {
 
     private readonly ApplicationDbContext _context;
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
     private readonly UrlEncoder _urlEncoder;
     private readonly IConfiguration _config;
     private readonly JwtSettings _jwtSettings;
@@ -42,8 +42,8 @@ public class AuthController : ControllerBase {
 
     public AuthController(
         ApplicationDbContext context,
-        UserManager<IdentityUser> userManager,
-        SignInManager<IdentityUser> signInManager,
+        UserManager<ApplicationUser> userManager,
+        SignInManager<ApplicationUser> signInManager,
         UrlEncoder urlEncoder,
         IConfiguration config,
         IOptions<JwtSettings> jwtSettings,
@@ -146,7 +146,7 @@ public class AuthController : ControllerBase {
         try {
             var principal = tokenHandler.ValidateToken(token, validationParameters, out SecurityToken validatedToken);
             var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var user = await _userManager.FindByIdAsync(userId);
+            var user = userId == null ? null : await _userManager.FindByIdAsync(userId);
 
             if (null == user) {
                 return Unauthorized(new { message = "Invalid token" });
@@ -169,7 +169,7 @@ public class AuthController : ControllerBase {
     should only have methods directy related to handling requests,
     and more intricate details should be delegated to a service.
     ******************************************************************/
-    private string GenerateJwtToken(IdentityUser user) {
+    private string GenerateJwtToken(ApplicationUser user) {
         if (null == user) {
             throw new ArgumentNullException(nameof(user));
         }
@@ -202,7 +202,7 @@ public class AuthController : ControllerBase {
 
     private async Task<AuthResult> RegisterWithEmail(HttpRequest request, EmailLoginDetails details) {
         AuthResult? authResult = new AuthResult();
-        IdentityUser? user = new IdentityUser { UserName = details.Email, Email = details.Email };
+        ApplicationUser? user = new ApplicationUser { UserName = details.Email, Email = details.Email };
         IdentityResult? result = await _userManager.CreateAsync(user, details.Password);
 
         if (!result.Succeeded) {
