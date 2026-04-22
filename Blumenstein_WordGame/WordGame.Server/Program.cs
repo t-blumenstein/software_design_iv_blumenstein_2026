@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using WordGame.Server.Data;
 using WordGame.Server.Models;
+using WordGame.Server.Services;
+using WordGame.Server.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,11 +16,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders(); // Adding token providers for the JWTs
+    .AddDefaultTokenProviders();
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAutoMapper(typeof(MappingProfile)); // see mapping profile below
+builder.Services.AddSingleton<WordGame.Server.Services.IWordProvider, WordGame.Server.Services.JsonWordProvider>();
 
 
 /*
@@ -99,8 +104,8 @@ builder.Services
 
 builder.Services.AddAuthorization();
 
-// Adds the Automapper.
-builder.Services.AddAutoMapper(typeof(Program));
+// Adds authentication middleware before authorization.
+builder.Services.AddAuthentication();
 
 var app = builder.Build();
 
@@ -119,6 +124,7 @@ else
 app.UseHttpsRedirection();
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
