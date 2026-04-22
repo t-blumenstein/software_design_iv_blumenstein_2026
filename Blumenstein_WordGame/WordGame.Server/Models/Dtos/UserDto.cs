@@ -1,7 +1,7 @@
 namespace WordGame.Server.Models.Dtos;
 
 public class UserDto {
-  public int Id {get; set;}
+  public string? Id {get; set;}
   public string? UserName {get; set;}
   public string? Email {get; set;}
 }

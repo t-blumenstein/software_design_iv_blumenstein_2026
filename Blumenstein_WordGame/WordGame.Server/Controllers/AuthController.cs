@@ -72,7 +72,7 @@ public class AuthController : ControllerBase {
 
     [AllowAnonymous]
     [HttpPost("login")]
-    public async Task<IActionResult> LoginWithEmail(EmailLoginDetails details) {
+    public async Task<IActionResult> LoginWithEmail(LoginRequest details) {
         var user = await _userManager.FindByEmailAsync(details.Email);
 
         if (null == user) {

@@ -1,0 +1,46 @@
+<div class="min-h-screen bg-gradient-to-b from-[#150026] via-[#2d0060] to-[#1a0033] py-8 px-4">
+	<div class="max-w-2xl mx-auto bg-[#1a0033]/80 border border-[#9b30ff]/40 rounded-2xl shadow-2xl shadow-[#9b30ff]/20 p-8 text-center text-[#e8d5ff]">
+		<div class="flex justify-start mb-4">
+			<a routerLink="/wordgame" class="bg-[#2d0060] hover:bg-[#3d0080] border border-[#9b30ff]/40 text-[#c084fc] text-sm px-4 py-2 rounded-lg transition">&larr; Back to All Games</a>
+		</div>
+		<div class="mb-2 text-left">
+			<span class="text-xs uppercase tracking-widest text-[#9b6dcc]">Status:</span>
+			<span class="ml-2 inline-block px-3 py-1 rounded-full text-xs font-bold"
+				[ngClass]="{
+					'bg-[#3ddc84]/20 text-[#3ddc84]': game()?.status?.toLowerCase() === 'won' || game()?.status?.toLowerCase() === 'win',
+					'bg-[#ff4d4d]/20 text-[#ff4d4d]': game()?.status?.toLowerCase() === 'lost' || game()?.status?.toLowerCase() === 'loss',
+					'bg-[#ffd700]/20 text-[#ffd700]': game()?.status?.toLowerCase() === 'unfinished' || game()?.status?.toLowerCase() === 'inprogress'
+				}">{{ game()?.status || 'Unknown' }}</span>
+		</div>
+
+		<h2 class="text-2xl font-bold mb-6 text-[#c084fc]">Guesses Remaining: <span class="font-normal text-[#e8d5ff]">{{ game()?.remainingGuesses ?? '-' }}</span></h2>
+
+		<div class="text-4xl font-mono tracking-[0.4em] mb-8 text-[#e8d5ff] drop-shadow-md">{{ spacedView }}</div>
+
+		<div class="mb-2">
+			<input #guessInput [ngModel]="guess()" (ngModelChange)="guess.set($event); error.set('')" (keydown.enter)="submitGuess()" maxlength="1" autofocus
+				class="px-4 py-3 w-20 text-center text-xl font-mono bg-[#2d0060] border-2 border-[#9b30ff]/60 rounded-xl text-[#e8d5ff] focus:outline-none focus:ring-2 focus:ring-[#9b30ff]" />
+		</div>
+
+		<div *ngIf="error()" class="mb-2 text-sm text-[#ff4d4d] font-semibold" aria-live="polite">{{ error() }}</div>
+
+		<button (click)="submitGuess()" class="bg-[#9b30ff] hover:bg-[#7b2cff] text-white px-6 py-2 rounded-lg font-bold shadow-lg shadow-[#9b30ff]/40 transition mb-6">Guess</button>
+
+		<div *ngIf="game()" class="mt-2 text-left">
+			<div class="text-xs uppercase tracking-widest text-[#9b6dcc] mb-1">Previous Guesses:</div>
+			<div class="text-sm text-[#c084fc] font-mono tracking-widest mb-4">{{ spacedGuesses || '—' }}</div>
+
+			<div *ngIf="game()?.status?.toLowerCase() === 'won' || game()?.status?.toLowerCase() === 'win'" class="mt-4 text-center">
+				<div class="text-xs uppercase tracking-widest text-[#9b6dcc] mb-1">Answer</div>
+				<div class="text-3xl font-mono tracking-[0.3em] text-[#3ddc84] mt-2">{{ spacedAnswer }}</div>
+				<div class="text-[#3ddc84] font-extrabold text-xl mt-3">🎉 You Win!</div>
+			</div>
+
+			<div *ngIf="game()?.status?.toLowerCase() === 'lost' || game()?.status?.toLowerCase() === 'loss'" class="mt-4 text-center">
+				<div class="text-xs uppercase tracking-widest text-[#9b6dcc] mb-1">Answer</div>
+				<div class="text-3xl font-mono tracking-[0.3em] text-[#ff4d4d] mt-2">{{ spacedAnswer }}</div>
+				<div class="text-[#ff4d4d] font-extrabold text-xl mt-3">💀 Game Over</div>
+			</div>
+		</div>
+	</div>
+</div>

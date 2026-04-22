@@ -1,0 +1,22 @@
+<main class="min-h-[calc(100vh-56px)] flex items-center justify-center bg-gradient-to-b from-[#150026] via-[#2d0060] to-[#1a0033] text-[#e8d5ff] p-8">
+  <div class="max-w-4xl mx-auto text-center">
+    <h1 class="text-5xl font-extrabold tracking-tight text-[#c084fc] drop-shadow-lg mb-2">Word Game</h1>
+    <p class="text-[#9b6dcc] text-lg mb-8">Guess the hidden word before your guesses run out</p>
+
+    <ng-container *ngIf="!isLoggedIn(); else loggedIn">
+      <p class="mt-4 text-[#e8d5ff]">Welcome! Please
+        <a routerLink="/auth/login" href="/auth/login" class="text-[#c084fc] underline font-semibold hover:text-white">log in</a>
+        or
+        <a routerLink="/auth/register" href="/auth/register" class="text-[#c084fc] underline font-semibold hover:text-white">register</a>
+        to play.
+      </p>
+    </ng-container>
+
+    <ng-template #loggedIn>
+      <a routerLink="/wordgame" href="/wordgame"
+         class="inline-block mt-6 px-6 py-3 bg-[#9b30ff] hover:bg-[#7b2cff] text-white font-bold rounded-lg shadow-lg shadow-[#9b30ff]/40 transition">
+        Play Now
+      </a>
+    </ng-template>
+  </div>
+</main>

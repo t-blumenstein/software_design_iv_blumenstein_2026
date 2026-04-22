@@ -1,0 +1,38 @@
+<div class="min-h-screen flex items-center justify-center bg-gradient-to-b from-[#150026] via-[#2d0060] to-[#1a0033]">
+	<div class="w-full max-w-md">
+		<form (ngSubmit)="onSubmit()" [formGroup]="form" class="bg-[#2d0060]/90 border border-[#9b30ff]/40 shadow-xl shadow-[#9b30ff]/20 rounded-xl px-8 py-6 text-[#e8d5ff]">
+			<h2 class="text-center text-2xl font-bold mb-4">Register</h2>
+
+
+
+			<label class="block mb-2 text-sm font-medium">Email address</label>
+			<input formControlName="email" type="email" class="w-full mb-1 px-3 py-2 bg-[#1a0033] border border-[#9b30ff]/50 rounded-lg text-[#e8d5ff] focus:outline-none focus:ring-2 focus:ring-[#9b30ff]" />
+			<div *ngIf="form.controls['email'].touched && form.controls['email'].invalid" class="text-xs text-[#ff4d4d] mb-2">Enter a valid email address.</div>
+
+			<div *ngIf="errors().length" class="mb-4 p-3 bg-red-900/30 border border-red-600 text-red-200 rounded">
+				<ul class="list-disc pl-5 text-sm">
+					<li *ngFor="let e of errors()">{{ e }}</li>
+				</ul>
+			</div>
+
+			<label class="block mb-2 text-sm font-medium">Password</label>
+			<input formControlName="password" type="password" class="w-full mb-1 px-3 py-2 bg-[#1a0033] border border-[#9b30ff]/50 rounded-lg text-[#e8d5ff] focus:outline-none focus:ring-2 focus:ring-[#9b30ff]" />
+			<div *ngIf="form.controls['password'].touched && form.controls['password'].invalid" class="text-xs text-[#ff4d4d] mb-2">Password must be at least 6 characters.</div>
+
+			<label class="block mb-2 text-sm font-medium">Repeat Password</label>
+			<input formControlName="confirmPassword" type="password" class="w-full mb-4 px-3 py-2 bg-[#1a0033] border border-[#9b30ff]/50 rounded-lg text-[#e8d5ff] focus:outline-none focus:ring-2 focus:ring-[#9b30ff]" />
+			<div *ngIf="form.controls['confirmPassword'].touched && form.controls['confirmPassword'].invalid" class="text-xs text-[#ff4d4d] mb-2">Please confirm your password.</div>
+
+			<div class="flex items-center mb-4">
+				<label class="inline-flex items-center text-sm text-gray-300">
+					<input type="checkbox" formControlName="rememberMe" class="mr-2" />
+					<span>Remember me</span>
+				</label>
+			</div>
+
+			<button type="submit" class="w-full bg-[#9b30ff] hover:bg-[#7b2cff] text-white py-2 rounded-lg font-bold shadow-lg shadow-[#9b30ff]/40 transition">Create an account</button>
+
+			<p class="text-center text-sm text-[#9b6dcc] mt-4">Already have an account? <a routerLink="/auth/login" href="/auth/login" class="text-[#c084fc] underline hover:text-white">Log in</a></p>
+		</form>
+	</div>
+</div>

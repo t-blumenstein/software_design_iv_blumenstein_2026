@@ -1,0 +1,51 @@
+
+<div class="min-h-screen bg-gradient-to-b from-[#150026] via-[#2d0060] to-[#1a0033] pt-8 px-4">
+	<div class="max-w-5xl mx-auto">
+		<div class="flex justify-center mb-6">
+			<button (click)="newGame()" class="bg-[#9b30ff] hover:bg-[#7b2cff] text-white px-6 py-2 rounded-lg font-bold shadow-lg shadow-[#9b30ff]/40 transition">New Game</button>
+		</div>
+		<div class="overflow-x-auto bg-[#1a0033] border border-[#9b30ff]/30 rounded-xl shadow-xl shadow-[#9b30ff]/10">
+		<table class="min-w-full table-fixed" style="table-layout: fixed;">
+			<colgroup>
+				<col style="width:7%" />
+				<col style="width:38%" />
+				<col style="width:10%" />
+				<col style="width:27%" />
+				<col style="width:10%" />
+				<col style="width:8%" />
+			</colgroup>
+			<thead class="bg-[#2d0060]/60 border-b border-[#9b30ff]/30">
+				<tr>
+					<th class="px-4 py-3 text-left text-xs font-bold text-[#c084fc] uppercase tracking-widest">Game ID</th>
+					<th class="px-4 py-3 text-left text-xs font-bold text-[#c084fc] uppercase tracking-widest">Phrase</th>
+					<th class="px-4 py-3 text-left text-xs font-bold text-[#c084fc] uppercase tracking-widest">Remaining</th>
+					<th class="px-4 py-3 text-left text-xs font-bold text-[#c084fc] uppercase tracking-widest">Answer</th>
+					<th class="px-4 py-3 text-left text-xs font-bold text-[#c084fc] uppercase tracking-widest">Status</th>
+					<th class="px-4 py-3"></th>
+				</tr>
+			</thead>
+			<tbody class="divide-y divide-[#9b30ff]/20">
+				<ng-container *ngIf="games().length; else emptyState">
+					<ng-container *ngFor="let g of games()">
+					<tr class="cursor-pointer hover:bg-[#2d0060]/40 transition" [ngClass]="statusClassFor(g)" (click)="openGame(g.id)">
+						<td class="px-4 py-4 text-sm text-[#e8d5ff]">{{ g.id }}</td>
+						<td class="px-4 py-4 text-sm font-mono tracking-widest text-[#e8d5ff]">{{ spacedViewFor(g) }}</td>
+						<td class="px-4 py-4 text-sm text-[#e8d5ff]">{{ g.remainingGuesses ?? 0 }}</td>
+						<td class="px-4 py-4 text-sm font-mono tracking-widest text-[#e8d5ff]">{{ finishedFor(g) ? spacedAnswerFor(g) : '' }}</td>
+						<td class="px-4 py-4 text-sm font-semibold" [ngClass]="statusTextFor(g)">{{ g.status }}</td>
+						<td class="px-4 py-4 text-right">
+							<button (click)="deleteGame(g.id); $event.stopPropagation(); $event.preventDefault();" class="bg-[#ff4d4d]/80 hover:bg-[#ff4d4d] text-white px-3 py-1 rounded-lg text-sm font-bold transition">Delete</button>
+							</td>
+						</tr>
+					</ng-container>
+				</ng-container>
+			</tbody>
+		</table>
+	</div>
+</div>
+
+<ng-template #emptyState>
+    <div class="p-8 text-center text-[#cdb3ff]">No games yet. Click "New Game" to get started.</div>
+</ng-template>
+
+</div>

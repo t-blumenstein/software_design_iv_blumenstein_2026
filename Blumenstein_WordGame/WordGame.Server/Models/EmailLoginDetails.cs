@@ -11,6 +11,5 @@ public class EmailLoginDetails {
   [Compare("Password")]
   public string? ConfirmPassword {get; set;}
   [Required]
-  public string? UserName {get; set;}
   public bool RememberMe {get; set;}
 }

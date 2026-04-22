@@ -1,0 +1,20 @@
+<mat-toolbar class="bg-[#150026] text-[#e8d5ff] px-0 border-b border-[#9b30ff]/30" style="height:56px">
+	<div class="container mx-auto flex items-center justify-between px-6">
+		<div class="flex items-center gap-6">
+			<a routerLink="/" href="/" class="text-sm font-bold text-[#c084fc] hover:text-white tracking-wide">Home</a>
+			<ng-container *ngIf="isLoggedIn()">
+				<a routerLink="/wordgame" href="/wordgame" class="text-sm font-bold text-[#c084fc] hover:text-white tracking-wide">Word Game</a>
+			</ng-container>
+		</div>
+
+		<div class="flex items-center gap-4">
+			<ng-container *ngIf="!isLoggedIn(); else logged">
+				<a routerLink="/auth/register" href="/auth/register" class="text-sm font-bold text-[#c084fc] hover:text-white tracking-wide">Register</a>
+				<a routerLink="/auth/login" href="/auth/login" class="text-sm font-bold text-[#c084fc] hover:text-white tracking-wide">Login</a>
+			</ng-container>
+			<ng-template #logged>
+				<button (click)="logout()" class="text-sm font-bold text-[#c084fc] hover:text-white tracking-wide">Logout</button>
+			</ng-template>
+		</div>
+	</div>
+</mat-toolbar>
